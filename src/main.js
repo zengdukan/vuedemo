@@ -6,6 +6,20 @@ const TodoItem = {
     template: `<li>{{ todo.text }}</li>`
 }
 
+const BlogPost = {
+    props: {
+        title: String,
+        likes: {
+            type: Number,
+            default: 100,
+        }
+    },
+
+    template: `
+        <p>{{ title }} : {{ likes }}</p>
+    `
+}
+
 const Counter = {
     data() {
         return {
@@ -30,7 +44,8 @@ const Counter = {
         }
     },
     components: {
-        TodoItem
+        'todo-item': TodoItem,
+        'blog-post': BlogPost,
     }
 };
 
