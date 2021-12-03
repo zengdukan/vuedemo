@@ -22,9 +22,9 @@
     <!-- <div id="app"></div> -->
     <div id="counter" class="demo">
       counter: {{ counter }}
-      <p>{{ message }}<button v-on:click="reverseMessage">反转Message</button></p>
+      <p>{{ message }}<button v-on:click="reverseMessage">reverseMessage</button></p>
       <span v-bind:title="message">
-        鼠标悬停几秒钟查看此处动态绑定的提示信息！
+        tip
       </span>
       <br/>
       <input v-model="message" />
@@ -37,16 +37,44 @@
             {{ todo.text }}
           </li>
         </ol>
+        <ol>
+          <li v-for="{id, text} in todos">
+            {{ id + ' ' + text }}
+          </li>
+        </ol>
       </div>
       <div>
         <ol>
           <todo-item
-            v-for="item in todos"
+            v-for="item of todos"
             v-bind:todo="item"
             v-bind:key="item.id">
 
           </todo-item>
         </ol>
+      </div>
+      <div>
+        <p>has todos length : </p>
+        <span>{{ hasTodos }}</span>
+      </div>
+      <div>
+        <p>
+          Ask a yes/no question:
+          <input v-model='question' />
+        </p>
+        <p>{{ answer }}</p>
+      </div>
+      <div>
+        <button @click="say('hi')">Say hi</button>
+        <button @click="say('hello')">Say hello</button>
+      </div>
+      <div>
+        <input type="checkbox" id="checkbox" v-model="checked" />
+        <label>{{ checked }}</label>
+      </div>
+      <div :style="{ fontSize: postFontSize + 'em' }">
+        <button-counter title="Blog"  @enlarge-text="postFontSize += 0.1"></button-counter>
+        <button-counter title="Jhon" @enlarge-text="postFontSize += 0.1"></button-counter>
       </div>
     </div>
     <script type="module" src="/src/main.js"></script>
