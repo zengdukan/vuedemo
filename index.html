@@ -76,7 +76,13 @@
         <button-counter title="Blog"  @enlarge-text="postFontSize += 0.1"></button-counter>
         <button-counter title="Jhon" @enlarge-text="postFontSize += 0.1"></button-counter>
       </div>
+      <div>
+        <blog-post title="hello" :likes="123"></blog-post>
+        <blog-post title="hello" :likes="aaa"></blog-post>
+        <blog-post title="hello" likes="aaa"></blog-post>
+      </div>
     </div>
+  
     <script type="module" src="/src/main.js"></script>
   </body>
 </html>

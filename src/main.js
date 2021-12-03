@@ -32,6 +32,20 @@ const ButtonCounter = {
             </button>
             <br />
         </div>
+        `
+}      
+
+const BlogPost = {
+    props: {
+        title: String,
+        likes: {
+            type: Number,
+            default: 100,
+        }
+    },
+
+    template: `
+        <p>{{ title }} : {{ likes }}</p>
     `
 }
 
@@ -81,8 +95,9 @@ const Counter = {
        
     },
     components: {
-        TodoItem,
-        ButtonCounter
+        ButtonCounter,
+        'todo-item': TodoItem,
+        'blog-post': BlogPost,
     },
     computed: {
         hasTodos() {
