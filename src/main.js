@@ -33,7 +33,7 @@ const ButtonCounter = {
             <br />
         </div>
         `
-}      
+}
 
 const BlogPost = {
     props: {
@@ -92,7 +92,7 @@ const Counter = {
             alert(message);
         },
 
-       
+
     },
     components: {
         ButtonCounter,
@@ -115,6 +115,4 @@ const Counter = {
 };
 
 const counter = createApp(Counter);
-
 counter.mount('#counter');
-// createApp(App).mount('#app')

@@ -1,88 +1,130 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" href="/favicon.ico" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vite App</title>
-    <style>
-      .demo {
-        font-family: sans-serif;
-        border: 1px solid #eee;
-        border-radius: 2px;
-        padding: 20px 30px;
-        margin-top: 1em;
-        margin-bottom: 40px;
-        user-select: none;
-        overflow-x: auto;
-      }
-    </style>
-  </head>
-  <body>
-    <!-- <div id="app"></div> -->
-    <div id="counter" class="demo">
-      counter: {{ counter }}
-      <p>{{ message }}<button v-on:click="reverseMessage">reverseMessage</button></p>
-      <span v-bind:title="message">
-        tip
-      </span>
-      <br/>
-      <input v-model="message" />
-      <div>
-        <span v-if="seen">see me</span>
-      </div>
-      <div>
-        <ol>
-          <li v-for="todo in todos">
-            {{ todo.text }}
-          </li>
-        </ol>
-        <ol>
-          <li v-for="{id, text} in todos">
-            {{ id + ' ' + text }}
-          </li>
-        </ol>
-      </div>
-      <div>
-        <ol>
-          <todo-item
-            v-for="item of todos"
-            v-bind:todo="item"
-            v-bind:key="item.id">
 
-          </todo-item>
-        </ol>
-      </div>
-      <div>
-        <p>has todos length : </p>
-        <span>{{ hasTodos }}</span>
-      </div>
-      <div>
-        <p>
-          Ask a yes/no question:
-          <input v-model='question' />
-        </p>
-        <p>{{ answer }}</p>
-      </div>
-      <div>
-        <button @click="say('hi')">Say hi</button>
-        <button @click="say('hello')">Say hello</button>
-      </div>
-      <div>
-        <input type="checkbox" id="checkbox" v-model="checked" />
-        <label>{{ checked }}</label>
-      </div>
-      <div :style="{ fontSize: postFontSize + 'em' }">
-        <button-counter title="Blog"  @enlarge-text="postFontSize += 0.1"></button-counter>
-        <button-counter title="Jhon" @enlarge-text="postFontSize += 0.1"></button-counter>
-      </div>
-      <div>
-        <blog-post title="hello" :likes="123"></blog-post>
-        <blog-post title="hello" :likes="aaa"></blog-post>
-        <blog-post title="hello" likes="aaa"></blog-post>
-      </div>
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" href="/favicon.ico" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Vite App</title>
+  <style>
+    .demo {
+      font-family: sans-serif;
+      border: 1px solid #eee;
+      border-radius: 2px;
+      padding: 20px 30px;
+      margin-top: 1em;
+      margin-bottom: 40px;
+      user-select: none;
+      overflow-x: auto;
+    }
+
+
+    .tab-button {
+      padding: 6px 10px;
+      border-top-left-radius: 3px;
+      border-top-right-radius: 3px;
+      border: 1px solid #ccc;
+      cursor: pointer;
+      background: #f0f0f0;
+      margin-bottom: -1px;
+      margin-right: -1px;
+    }
+
+    .tab-button:hover {
+      background: #e0e0e0;
+    }
+
+    .tab-button.active {
+      background: #e0e0e0;
+    }
+
+    .demo-tab {
+      border: 1px solid #ccc;
+      padding: 10px;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- <div id="app"></div> -->
+  <!--
+  <div id="counter" class="demo">
+    counter: {{ counter }}
+    <p>{{ message }}<button v-on:click="reverseMessage">reverseMessage</button></p>
+    <span v-bind:title="message">
+      tip
+    </span>
+    <br />
+    <input v-model="message" />
+    <div>
+      <span v-if="seen">see me</span>
     </div>
+    <div>
+      <ol>
+        <li v-for="todo in todos">
+          {{ todo.text }}
+        </li>
+      </ol>
+      <ol>
+        <li v-for="{id, text} in todos">
+          {{ id + ' ' + text }}
+        </li>
+      </ol>
+    </div>
+    <div>
+      <ol>
+        <todo-item v-for="item of todos" v-bind:todo="item" v-bind:key="item.id">
+
+        </todo-item>
+      </ol>
+    </div>
+    <div>
+      <p>has todos length : </p>
+      <span>{{ hasTodos }}</span>
+    </div>
+    <div>
+      <p>
+        Ask a yes/no question:
+        <input v-model='question' />
+      </p>
+      <p>{{ answer }}</p>
+    </div>
+    <div>
+      <button @click="say('hi')">Say hi</button>
+      <button @click="say('hello')">Say hello</button>
+    </div>
+    <div>
+      <input type="checkbox" id="checkbox" v-model="checked" />
+      <label>{{ checked }}</label>
+    </div>
+    <div :style="{ fontSize: postFontSize + 'em' }">
+      <button-counter title="Blog" @enlarge-text="postFontSize += 0.1"></button-counter>
+      <button-counter title="Jhon" @enlarge-text="postFontSize += 0.1"></button-counter>
+    </div>
+    <div>
+      <blog-post title="hello" :likes="123"></blog-post>
+      <blog-post title="hello" :likes="aaa"></blog-post>
+      <blog-post title="hello" likes="aaa"></blog-post>
+    </div>
+  </div>
+ -->
+  <div id="dynamic-component-demo" class="demo">
+    <button
+       v-for="tab in tabs"
+       :key="tab"
+       :class="['tab-button', { active: currentTab === tab }]"
+       @click="currentTab = tab"
+     >
+      {{ tab }}
+    </button>
   
-    <script type="module" src="/src/main.js"></script>
-  </body>
+    <keep-alive>
+      <component :is="currentTabComponent" class="tab"></component>
+    </keep-alive>
+  </div>
+
+  <!-- <script type="module" src="/src/main.js"></script> -->
+  <script type="module" src="/src/tab.js"></script>
+</body>
+
 </html>
