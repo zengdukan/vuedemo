@@ -107,8 +107,11 @@
       <blog-post title="hello" likes="aaa"></blog-post>
     </div>
   </div>
+  <script type="module" src="/src/main.js"></script>
  -->
-  <div id="dynamic-component-demo" class="demo">
+
+  <!-- 
+    <div id="dynamic-component-demo" class="demo">
     <button
        v-for="tab in tabs"
        :key="tab"
@@ -122,9 +125,14 @@
       <component :is="currentTabComponent" class="tab"></component>
     </keep-alive>
   </div>
-
-  <!-- <script type="module" src="/src/main.js"></script> -->
-  <script type="module" src="/src/tab.js"></script>
+  <script type="module" src="/src/tab.js"></script> 
+-->
+<!-- 
+  <div id="app"></div>
+  <script type="module" src="/src/counter.js"></script> 
+ -->
+  <div id="app"></div>
+  <script type="module" src="/src/routeMain.js"></script>
 </body>
 
 </html>
