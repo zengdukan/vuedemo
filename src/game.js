@@ -6,79 +6,43 @@ const app = createApp({
 
 app.component('Game', {
     data() {
-        return {
-            
-        }
-    },
-
-    template: `
-        <div class="game">
-            <div class="game-board">
-                <Board />
-            </div>
-        </div>
-        <div class="game-info">
-            <div><!--TODO--></div>
-            <ol><!--TODO--></ol>
-        </div>
-    `,
-})
-
-
-
-app.component('Square', {
-    props: ['value', 'idx'],
-    template: `
-        <button class='square' @click='onclick'>
-            {{ this.value }}
-        </button>
-    `,
-
-    methods: {
-        onclick() {
-            this.$emit('clickSquare', this.idx);
-        },
-    },
-
-    updated() {
-        console.log(`update: ${this.idx}`);
-    }
-})
-
-app.component('Board', {
-    data() {
         return  {
-            squares: Array(9).fill(null),
+            history:[{squares: Array(9).fill(null)}],
             xIsNext: true,
+            stepNumber: 0,
         }
     },
 
     methods: {
-        clickSquare(idx) {
-            const squares = [...this.squares];
+        handleClick(idx) {
+            const history = this.history.slice(0, this.stepNumber + 1);
+            const current = history[history.length - 1];
+            const squares = [...current.squares];
             if (this.calculateWinner || squares[idx]) {
                 return;
             }
             squares[idx] = this.xIsNext ? 'X' : 'O';
-            this.squares = squares;
+            this.history = [
+                ...history,
+                { squares: squares }
+            ];
             this.xIsNext = !this.xIsNext;
-            // this.squares[idx] = 'X'; // direct modify is ok too
+            this.stepNumber = history.length;
         },
 
+        jumpTo(step) {
+            this.stepNumber = step;
+            this.xIsNext = (step % 2) === 0;
+        }
     },
 
-    computed: {
-        getIdx(row, col) {
-            console.log(typeof(row));
-            console.log(row);
-            return (row - 1)*3 + (col - 1);
+    computed: {   
+        squares() {
+            const history = this.history;
+            const current = history[this.stepNumber];
+            return current.squares;
         },
 
-        getValue(row, col) {
-            return this.squares[getIdx(row, col)];
-        },
-
-        
         next() {
             return this.xIsNext ? 'X' : 'O';
         },
@@ -112,10 +76,55 @@ app.component('Board', {
             }
         }
     },
- 
+
+    template: `
+        <div class="game">
+            <div class="game-board">
+                <Board @clickSquare='handleClick' :squares='this.squares'/>
+            </div>
+            <div class="game-info">
+                <div>{{ this.status }}</div>
+                <ol>
+                    <li v-for='(item, step) in this.history' :key='step'>
+                        <button @click='jumpTo(step)'>Goto {{step === 0 ? 'start' : step }}</button>
+                    </li>
+                </ol>
+            </div>
+        </div>
+    `,
+})
+
+
+
+app.component('Square', {
+    props: ['value', 'idx'],
+    template: `
+        <button class='square' @click='onclick'>
+            {{ this.value }}
+        </button>
+    `,
+
+    methods: {
+        onclick() {
+            this.$emit('clickSquare', this.idx);
+        },
+    },
+
+    updated() {
+        console.log(`update: ${this.idx}`);
+    }
+})
+
+app.component('Board', {
+    props:['squares'],
+    methods: {
+        clickSquare(idx) {
+            this.$emit('clickSquare', idx);
+        },
+    },
+
     template: `
         <div>
-            <div class="status">{{ this.status }}</div>
             <div class="board-row" v-for='r of 3' :key='r'>
                 <Square v-for='c of 3' :key='(r - 1)*3 + (c - 1)' :value='this.squares[(r - 1)*3 + (c - 1)]' @clickSquare='clickSquare' :idx='(r - 1)*3 + (c - 1)'/>
             </div>
