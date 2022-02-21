@@ -80,12 +80,12 @@ app.component('Game', {
     template: `
         <div class="game">
             <div class="game-board">
-                <Board @clickSquare='handleClick' :squares='this.squares'/>
+                <Board @clickSquare='handleClick' :squares='squares'/>
             </div>
             <div class="game-info">
-                <div>{{ this.status }}</div>
+                <div>{{ status }}</div>
                 <ol>
-                    <li v-for='(item, step) in this.history' :key='step'>
+                    <li v-for='(item, step) in history' :key='step'>
                         <button @click='jumpTo(step)'>Goto {{step === 0 ? 'start' : step }}</button>
                     </li>
                 </ol>
@@ -100,7 +100,7 @@ app.component('Square', {
     props: ['value', 'idx'],
     template: `
         <button class='square' @click='onclick'>
-            {{ this.value }}
+            {{ value }}
         </button>
     `,
 
@@ -126,7 +126,7 @@ app.component('Board', {
     template: `
         <div>
             <div class="board-row" v-for='r of 3' :key='r'>
-                <Square v-for='c of 3' :key='(r - 1)*3 + (c - 1)' :value='this.squares[(r - 1)*3 + (c - 1)]' @clickSquare='clickSquare' :idx='(r - 1)*3 + (c - 1)'/>
+                <Square v-for='c of 3' :key='(r - 1)*3 + (c - 1)' :value='squares[(r - 1)*3 + (c - 1)]' @clickSquare='clickSquare' :idx='(r - 1)*3 + (c - 1)'/>
             </div>
         </div>
     `,
