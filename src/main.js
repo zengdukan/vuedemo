@@ -1,6 +1,22 @@
-import { createApp } from 'vue'
+import { createApp, onMounted } from 'vue'
 import App from './App.vue'
 import axios from 'axios'
+
+const AddFont = {
+    props:['title'],
+    template: `
+        <p>
+            <span>{{ title }}</span>
+            <button @click="onclick">+</button>
+        </p>
+    `,
+
+    methods: {
+        onclick() {
+            this.$emit('enlargeText', 0.1);
+        }
+    }
+}
 
 const TodoItem = {
     props: ['todo'],
@@ -8,111 +24,98 @@ const TodoItem = {
 }
 
 const ButtonCounter = {
-    props: ['title'],
     data() {
         return {
-            count: 0,
-        }
+            counter: 0,
+        };
     },
 
     methods: {
-        onEnlargeText(enlargeAmount) {
-            this.postFontSize += enlargeAmount
-        },
-    },
-
-    template: `
-        <div>
-            <h4>{{ title }}</h4>
-            <button @click="count++">
-                You clicked me {{count}} times.
-            </button>
-            <button @click="$emit('enlargeText', 0.1)">
-                enlargeText
-            </button>
-            <br />
-        </div>
-        `
-}
-
-const BlogPost = {
-    props: {
-        title: String,
-        likes: {
-            type: Number,
-            default: 100,
+        onclick() {
+            this.counter++;
         }
     },
 
     template: `
-        <p>{{ title }} : {{ likes }}</p>
+        <button @click='onclick'>
+            You click {{ this.counter }} times.
+        </button>
+    `,
+}
+
+const BlogPost = {
+    props: ['title'],
+    template:`
+        <h4>{{ title }}</h4>
     `
 }
 
 const Counter = {
     data() {
         return {
-            counter: 0,
-            message: 'Hello Vue!!',
-            seen: true,
+            counter: 2,
+            message: 'You loaded this page on ' + new Date().toLocaleString(),
+            input_txt: 'Hello Vue',
             todos: [
-                { id: 0, text: 'Learn JavaScript' },
-                { id: 1, text: 'Learn Vue' },
-                { id: 2, text: 'Build something awesome' }
+                { id: 0, text: 'Vegetables' },
+                { id: 1, text: 'Cheese' },
+                { id: 2, text: 'Whatever else humans are supposed to eat' }
             ],
-            question: '',
-            answer: 'Questions usually contain a question mark. ;-)',
-            checked: false,
-            postFontSize: 1,
-        };
-    },
-    mounted() {
-        setInterval(() => {
-            this.counter++
-        }, 1000)
-    },
-    methods: {
-        reverseMessage() {
-            this.message = this.message.split('').reverse().join('');
-        },
-
-        getAnswer() {
-            this.answer = 'Thinking...';
-            axios.get('https://yesno.wtf/api')
-                .then(response => {
-                    this.answer = response.data.answer;
-                    console.log(this.answer);
-                })
-                .catch(error => {
-                    this.answer = 'Error! Could not reach the API. ' + error;
-                });
-        },
-
-        say(message) {
-            alert(message);
-        },
-
-
-    },
-    components: {
-        ButtonCounter,
-        'todo-item': TodoItem,
-        'blog-post': BlogPost,
-    },
-    computed: {
-        hasTodos() {
-            return this.todos.length > 5 ? 'yes' : 'no';
+            author: {
+                name: 'John Doe',
+                books: [
+                    'Vue 2 - Advanced Guide',
+                    'Vue 3 - Basic Guide',
+                    'Vue 4 - The Mystery'
+                ]
+            },
+            firstName: 'a',
+            lastName: 'b',
+            numbers: [1, 2, 3, 4, 5],
+            postFontSize: 1
         }
     },
-    watch: {
-        question(newQuestion, oldQuestion) {
-            console.log(newQuestion);
-            if (newQuestion.indexOf('?') > -1) {
-                this.getAnswer();
-            }
+
+    mounted() {
+        setInterval(() => {
+            this.counter++;
+        }, 1000);
+    },
+
+    methods: {
+        reverse() {
+            this.message = [...this.message].reverse().join('');
+        },
+
+        onEnlargeText(value) {
+            this.postFontSize += value;
+        }
+    },
+
+    components: {
+        TodoItem,
+        'my-button-counter': ButtonCounter,
+        'button-counter': ButtonCounter,
+        BlogPost,
+        AddFont
+    },
+
+    computed: {
+        publishedBooksMessage() {
+            return this.author.books.length > 0 ? 'yes' : 'no';
+        },
+
+        fullName() {
+            return `${this.firstName} ${this.lastName}`;
+        },
+
+        evenInNumbers() {
+            return this.numbers.filter(n => n % 2 === 0);
         }
     },
 };
+
+
 
 const counter = createApp(Counter);
 counter.mount('#counter');
