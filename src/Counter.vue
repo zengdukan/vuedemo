@@ -1,7 +1,8 @@
 <template>
-    <button @click="increment">{{ count }}</button>
-    <button @click="increment">{{ countAlias }}</button>
-    <button @click="increment">{{ countPlusLocalState }}</button>
+    <button @click="increment1">add 1 : {{ count }}</button>
+    <button @click="increment2">add 2 :{{ countAlias }}</button>
+    <button @click="increment3">add 3 :{{ countPlusLocalState }}</button>
+    <button @click="increment4">add 4 :{{ countPlusLocalState }}</button>
     <p>getter {{ $store.getters.doneTodos.length }}</p>
     <p>getter compute: {{ doneTodosCount }}</p>
     <p>compute {{ computeCount }}</p>
@@ -18,8 +19,28 @@ export default {
     },
 
     methods: {
-        increment() {
-            this.$store.commit('increment');
+        increment1() {
+            this.$store.commit('increment1');
+            console.log(this.$store.state.count);
+        },
+
+        increment2() {
+            this.$store.commit('increment2', 2);
+            console.log(this.$store.state.count);
+        },
+
+        increment3() {
+            this.$store.commit('increment3', { 
+                amount: 3
+            });
+            console.log(this.$store.state.count);
+        },
+
+        increment4() {
+            this.$store.commit({
+                type: 'increment3',
+                amount: 4
+            });
             console.log(this.$store.state.count);
         }
     },
