@@ -3,13 +3,14 @@
     <button @click="increment2">add 2 :{{ countAlias }}</button>
     <button @click="increment3">add 3 :{{ countPlusLocalState }}</button>
     <button @click="increment4">add 4 :{{ countPlusLocalState }}</button>
+    <button @click="asyncIncrement">asyncIncrement :{{ countPlusLocalState }}</button>
     <p>getter {{ $store.getters.doneTodos.length }}</p>
     <p>getter compute: {{ doneTodosCount }}</p>
     <p>compute {{ computeCount }}</p>
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapActions, mapState } from 'vuex'
 
 export default {
     data() {
@@ -42,6 +43,12 @@ export default {
                 amount: 4
             });
             console.log(this.$store.state.count);
+        },
+
+        asyncIncrement() {
+            this.$store.dispatch('incrementAsync', {
+                amount: 10
+            });
         }
     },
 
@@ -60,7 +67,8 @@ export default {
 
         doneTodosCount() {
             return this.$store.getters.doneTodos.length;
-        }
+        },
+
     },
 }
 </script>

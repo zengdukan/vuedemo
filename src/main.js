@@ -34,6 +34,15 @@ const store = createStore({
         doneTodos: (state) => {
             return state.todos.filter(todo => todo.done);
         }
+    },
+
+    actions: {
+        incrementAsync({ commit }, payload) {
+            setTimeout(() => {
+                commit('increment3', payload)
+            }, 1000);
+        }
+
     }
 });
 
