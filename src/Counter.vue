@@ -2,6 +2,9 @@
     <button @click="increment">{{ count }}</button>
     <button @click="increment">{{ countAlias }}</button>
     <button @click="increment">{{ countPlusLocalState }}</button>
+    <p>getter {{ $store.getters.doneTodos.length }}</p>
+    <p>getter compute: {{ doneTodosCount }}</p>
+    <p>compute {{ computeCount }}</p>
 </template>
 
 <script>
@@ -21,12 +24,22 @@ export default {
         }
     },
 
-    computed: mapState({
-        count: state => state.count,
-        countAlias: 'count',
-        countPlusLocalState (state) {
-            return state.count + this.localCount;
+    computed: {
+        ...mapState({
+            count: state => state.count,
+            countAlias: 'count',
+            countPlusLocalState (state) {
+                return state.count + this.localCount;
+            }
+        }),
+
+        computeCount() {
+            return this.$store.state.count;
+        },
+
+        doneTodosCount() {
+            return this.$store.getters.doneTodos.length;
         }
-    }),
+    },
 }
 </script>
