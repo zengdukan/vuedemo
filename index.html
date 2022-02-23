@@ -21,79 +21,9 @@
 </head>
 
 <body>
-  <div id="counter">
+  <div id="counter" class="add_border">
     Counter: {{ counter }}
-    
-    <div class="add_border" :style="{ fontSize: postFontSize + 'em' }">
-      <add-font title='1' @enlarge-text='onEnlargeText'></add-font>
-      
-    </div>
-    <p>
-      <button-counter></button-counter>
-      <button-counter></button-counter>
-      <my-button-counter></my-button-counter>
-      <blog-post title='vvv'></blog-post>
-      <blog-post title='111'></blog-post>
-      <blog-post title='222'></blog-post>
-    </p>
-    <div class="add_border">
-      <ul >
-        <li v-for='n of evenInNumbers' :key='n'>
-          {{ n }}
-        </li>
-      </ul>
-
-      <ul>
-        <li v-for='n of 5' :key='n'>
-          {{ n }}
-        </li>
-      </ul>
-    </div>
-
-    <div class="add_border">
-      <p>firstName: <input v-model='firstName' /></p>
-      <p>lastName: <input v-model='lastName' /></p>
-      <p>{{ fullName }}</p>
-    </div>
-
-    <div class="add_border">
-      <p>Has publish books:</p>
-      <p>{{ author.books.length > 0 ? 'yes' : 'no' }}</p>
-      <p>{{ publishedBooksMessage }}</p>
-    </div>
-
-    <p>
-      <span v-bind:title="message">
-        hover and show
-      </span>
-    </p>
-    
-    <div class="add_border">
-      <p>{{ message }}</p>
-      <button v-on:click="reverse">Reverse</button>
-    </div>
-
-    <div class="add_border">
-      <p>{{ input_txt }}</p>
-      <input v-model='input_txt'/>
-    </div>
-
-    <div class="add_border">
-      <li v-for='todo in todos'>
-        {{ todo.text }}
-      </li>
-    </div>
-
-    <div class="add_border">
-      <ol>
-        <todo-item
-          v-for='item in todos'
-          v-bind:todo='item'
-          v-bind:key='item.id'>
-        </todo-item>
-      </ol>
-    </div>
-  </div>
+  </div>  
   <script type="module" src="/src/main.js"></script>
 </body>
 
